@@ -5,38 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
     <div class="main">
-        <div class="header">
-            <div class="welcome">Welcome to tic tac toe</div>
+        <canvas>
+            <div class="txtStyle">STROKE-ON CANVAS</div>
+        </canvas>
+
+        <div class="player-title">
+            <h4>Players turn: </h4>
+            <h4 class="player-turn"></h4>
         </div>
 
         <div class="tic-tac-toe">
             <div class="col-one">
-                <div class="row-one">1</div>
-                <div class="row-two">2</div>
-                <div class="row-three">3</div>
+                <div class="col-one-row-one"></div>
+                <div class="col-one-row-two"></div>
+                <div class="col-one-row-three"></div>
             </div>
 
             <div class="col-two">
-                <div class="row-one">1</div>
-                <div class="row-two">2</div>
-                <div class="row-three">3</div>
+                <div class="col-two-row-one"></div>
+                <div class="col-two-row-two"></div>
+                <div class="col-two-row-three"></div>
             </div>
 
             <div class="col-three">
-                <div class="row-one">1</div>
-                <div class="row-two">2</div>
-                <div class="row-three">3</div>
+                <div class="col-three-row-one"></div>
+                <div class="col-three-row-two"></div>
+                <div class="col-three-row-three"></div>
             </div>
+        </div>
+
+        <div class="stats">
+            <h6 class="space">player 1 = X, player 2 = O </h6>
+            <h6>player 1 win count: </h6>
+            <h6>player 2 win count:</h6>
         </div>
 
     </div>
 
-    <script src="players.js"></script>
-    <script src="app.js"></script>
+
+
+    <script src="./js/test.js"></script>
+    <script src="./js/objects.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 </html>
