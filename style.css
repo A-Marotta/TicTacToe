@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+    border: 2px solid red;
+}
+
+.main {
+    margin: 0 auto;
+    width: 80%;
+    height: 800px;
+}
+
+.header {
+    position: relative;
+    height: 100px;
+    
+}
+
+.welcome {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.tic-tac-toe {
+    margin-top: 40px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.col-one *, .col-two *, .col-three * {
+    height: calc(100% / 3);
+    text-align: center;
+}
+
+.row-one, .row-two, .row-three {
+    display: flex;
+    align-content: space-around;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+
