@@ -1,10 +1,38 @@
 * {
     box-sizing: border-box;
-    /* border: 2px solid red; */
+}
+
+body, html {
+    overflow:hidden;
+}
+
+header {
+    padding-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    top: 0;    
+    font-size: 40px;
+    color: white;
+    text-shadow: 4px 4px #EF4423;
+}
+
+.class-in-main-screen {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    top: 0;    
+    font-size: 20px;
+    color: white;
+    text-shadow: 1px 1px #EF4423;    
 }
 
 body {
-    background-color: #b5a3da;
+    margin: 0;
+    background-color: #4056a2;
+    font-family: 'Press Start 2P', cursive;
 }
 
 input[type=text], select {
@@ -17,9 +45,10 @@ input[type=text], select {
     box-sizing: border-box;
 }
 
-input[type=submit] {
+button[type=button] {
+    font-family: 'Press Start 2P', cursive;
     width: 100%;
-    background-color: #5265e8;
+    background-color: #000000;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -28,8 +57,8 @@ input[type=submit] {
     cursor: pointer;
 }
 
-input[type=submit]:hover {
-    background-color: #000000;
+button[type=button]:hover {
+    background-color: #ff0000;
 }
 
 .user-options {
@@ -41,28 +70,54 @@ input[type=submit]:hover {
     position: fixed;
     top: 50%;
     left: 50%;
+    box-shadow: 0 0 15px;
     transform: translate(-50%, -50%);
 }
 
 .user-options > h2 {
     margin-top: 0;
+    letter-spacing: 3px;
+    font-size: 18px;
+    padding-bottom: 24px;
+    text-shadow: 1px 1px #EF4423;
+}
+
+.user-options > label {
+    margin-top: 0;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px #FFFFFF;
 }
 
 form {
     text-align: left;
 }
 
+.countdown {
+    text-align: left;
+    padding-bottom: 20px;
+    display: none;
+}
+
 .main {
+    visibility: hidden;
     margin: 0 auto;
     width: 80%;
-    height: 100px;
     text-align: center;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    margin-bottom: 50px;
+    z-index: 2; 
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    box-shadow: 0 0 15px;
 }
 
 .player-title {
     width: 100%;
     display: inline-flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .player-title h6 {
@@ -115,11 +170,31 @@ form {
     margin-top: 0;
 }
 
+.current-player {
+    display: inline-flex;
+    justify-content: space-around;
+    align-content: center;
+    width: 40%;
+}
+
 .space {
     padding-top: 10px;
 }
 
-
+@keyframes blink{
+    0%{
+      border-right-color:transparent;
+    }
+    50%{
+      border-right-color:transparent;
+    }
+    51%{
+      border-right-color:#fff;
+    }
+    100%{
+      border-right-color:#fff;
+    }
+  }
 
 @media only screen and (max-width: 600px) {
     .tic-tac-toe img {

@@ -44,4 +44,6 @@ var player2WinCount = document.querySelector('.p2-score');
 player1WinCount.innerHTML = localStorage.getItem(1);
 player2WinCount.innerHTML = localStorage.getItem(2);
 
+var countdownDisplay = document.querySelector('.countdown');
+
 var userOptionBtn = document.querySelector('.submit-useroption');

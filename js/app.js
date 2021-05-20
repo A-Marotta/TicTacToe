@@ -74,14 +74,18 @@ function checkWin() {
         console.log(`Game over player ${player} wins`);
 
         if (player === '1') {
+            player = player1.playerName;
             player1.winCounter++;
         } else {
+            player = player2.playerName;
             player2.winCounter++;
         }
 
         for ( var i = 0; i < gameTemplate.length; i++) {
             gameTemplate[i].style.pointerEvents = 'none';
         }
+
+        startTimer(0);
 
         alert(`Player ${player} has won!!`);
 
@@ -96,9 +100,11 @@ function updatePlayer(player){
     var displayPlayerTurn = document.querySelector('.player-turn');
 
     if (player === 0){
-        displayPlayerTurn.textContent = 'Player 1';
+        displayPlayerTurn.textContent = player1.playerName;
+        
     } else {
-        displayPlayerTurn.textContent = 'Player 2';
+        displayPlayerTurn.textContent = player2.playerName;
+        
     }
 }
 
@@ -157,12 +163,10 @@ function updateBoard(event, player) {
 
 // Handles the click event - checks which players turn it is, displays if game is over
 function handleClick(event) {
-    var selectedGrid = event.target;
+    // var selectedGrid = event.target;
     var turn = checkPlayerTurn()
     var player = null;
     gameCounter++;
-
-
 
     if (turn) {
         var img = document.createElement("IMG");
@@ -199,8 +203,14 @@ function checkPlayerTurn(){
 }
 
 // Function for the timer countdown
-function startTimer(duration, display) {
+function startTimer(duration) {
+    var display = document.querySelector('#time');
     var timer = duration, minutes, seconds;
+
+    if (duration === 0) {
+        countdownDisplay.style.display = 'none';
+    }
+
     setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
@@ -221,16 +231,24 @@ function setPlayerOptions() {
     var player1Name = document.querySelector('#p1-name');
     var player2Name = document.querySelector('#p2-name');
     var gameOptionForm = document.querySelector('.user-options');
+    var mainScreen = document.querySelector('.main').style.visibility = 'visible';
+    var headerDecrease = document.querySelector('header').classList.add('class-in-main-screen');
 
     player1.playerName = player1Name.value;
     player2.playerName = player2Name.value;
 
-    var timer = document.querySelector('#timer').value;
-    var display = document.querySelector('#time');
+    var displayHover1 = document.querySelector('.player1-user');
+    var displayHover2 = document.querySelector('.player2-user');
+    displayHover1.textContent = player1.playerName;
+    displayHover2.textContent = player2.playerName;
 
-    startTimer(timer, display);
+    var timer = document.querySelector('#timer').value;
+
+    startTimer(timer);
 
     gameOptionForm.style.display = 'none';
+    countdownDisplay.style.display = 'block';
+
 
 }
 

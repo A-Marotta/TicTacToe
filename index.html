@@ -6,36 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 </head>
 <body>
-    
-    <div class="user-options">
-        <h2>Please enter your game options:</h2>
+    <canvas id="snow"></canvas>
+
+        <header>
+            <h4>Tic Tac Toe</h4>
+        </header>
+
+        <div class="user-options">
+            <h2>Please enter your game options:</h2>
+            
+            <label for="p1-name">Player 1 name</label>
+            <input type="text" id="p1-name" name="p1-name" placeholder="Player 1 name...">
         
-          <label for="p1-name">Player 1 name</label>
-          <input type="text" id="p1-name" name="p1-name" placeholder="Your name..">
-      
-          <label for="p2-name">Player 2 name</label>
-          <input type="text" id="p2-name" name="p2-name" placeholder="Your last name..">
-      
-          <label for="countdown">Countdown timer</label>
-          <select id="timer" name="timer">
-            <option value="30">30 seconds</option>
-            <option value="60">60 seconds</option>
-            <option value="90">90 seconds</option>
-          </select>
+            <label for="p2-name">Player 2 name</label>
+            <input type="text" id="p2-name" name="p2-name" placeholder="Player 2 name...">
         
-          <button class="submit-useroption" type="button">Submit</button>
-        
-    </div>
+            <label for="countdown">Countdown timer</label>
+            <select id="timer" name="timer">
+                <option value="30">30 seconds</option>
+                <option value="60">60 seconds</option>
+                <option value="90">90 seconds</option>
+            </select>
+            
+            <button class="submit-useroption" type="button">Submit</button>
+            
+        </div>
 
     <div class="main">
-
-        <canvas>
-            <div class="txtStyle">STROKE-ON CANVAS</div>
-        </canvas>
-
-        <div>Player turn countdown <span id="time">xx</span> minutes!</div>
+        
+        <div class="countdown">Player<span class="player-turn"></span> countdown <span id="time">xx</span> minutes!</div>
 
         <div class="tic-tac-toe">
             <div class="col-one">
@@ -58,18 +60,19 @@
         </div>
 
         <div class="player-title">
-            <h4>Players turn: <span class="player-turn"></span></h4>
             <div class="stats">
                 <h6>player 1 win count: <span class='p1-score'></span></h6>
                 <h6>player 2 win count: <span class='p2-score'></span></h6>
                 <h6 class="space">player 1 = X, player 2 = O </h6>
-            </div>           
+            </div>    
+            <div class="current-player">
+                <h4><span class="player1-user"></span></h4>
+                <h4><span class="player2-user"></span></h4>
+            </div>       
         </div>
     </div>
 
-
-
-    <script src="./js/animate.js"></script>
+    <script src="./js/snowBackground.js"></script>
     <script src="./js/objects.js"></script>
     <script src="./js/app.js"></script>
 </body>
