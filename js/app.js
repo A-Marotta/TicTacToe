@@ -30,6 +30,19 @@ function diagonalWin() {
 
 }
 
+// Saves the players win to local storage
+function storeWin(player) {
+    var playerWinCount = localStorage.getItem(player);
+    
+    if (player === 1) {
+        playerWinCount++;
+        localStorage.setItem(player, playerWinCount);
+    } else {
+        playerWinCount++;
+        localStorage.setItem(player, playerWinCount);
+    }
+}
+
 // Check each function for a true condition on a winner
 function checkWin() {
     if (rowWin() || colWin() || diagonalWin()){
@@ -44,6 +57,10 @@ function checkWin() {
         for ( var i = 0; i < gameTemplate.length; i++) {
             gameTemplate[i].style.pointerEvents = 'none';
         }
+
+        alert(`Player ${player} has won!!`);
+
+        storeWin(player);
     }
 }
 
@@ -115,6 +132,7 @@ function handleClick(event) {
     if (gameCounter === gameTemplate.length)
     {
         console.log('Game over!');
+        console.log('Game is a draw');
     }
 
     if (turn) {
@@ -124,7 +142,7 @@ function handleClick(event) {
         img.setAttribute("height", "50");
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
-        console.log('Player 1');
+        // console.log('Player 1');
         player = 1;
     } else {
         var img = document.createElement("IMG");
@@ -133,7 +151,7 @@ function handleClick(event) {
         img.setAttribute("height", "50");
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
-        console.log('Player 2');
+        // console.log('Player 2');
         player = 0;
     }
 
@@ -144,14 +162,38 @@ function handleClick(event) {
 function checkPlayerTurn(){
     if (player1.currentGameCounter < player2.currentGameCounter || player1.currentGameCounter === player2.currentGameCounter) {
         player1.currentGameCounter++;
-        
+
         return true;
     } else {
         player2.currentGameCounter++;
-        
+
         return false;
     }
 }
+
+// WORK ON TIMER AND DIAGONAL WIN
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    var fiveMinutes = 60 * 5,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+};
 
 // Active for loop listening for clicks on the query selector
 for ( var i = 0; i < gameTemplate.length; i++) {

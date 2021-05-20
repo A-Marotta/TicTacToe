@@ -16,14 +16,18 @@ var player1Cols = [0,0,0];
 var player2Cols = [0,0,0];
 
 var player1 = {
-    currentGameCounter: 0,
-    winCounter: 0
+    currentGameCounter: 0
 }
 
 var player2 = {
-    currentGameCounter: 0,
-    winCounter: 0
+    currentGameCounter: 0
 }
 
 var gameCounter = 0;
 var gameTemplate = document.querySelectorAll('.tic-tac-toe > * > *');
+
+var player1WinCount = document.querySelector('.p1-score');
+var player2WinCount = document.querySelector('.p2-score');
+
+player1WinCount.innerHTML = localStorage.getItem(1);
+player2WinCount.innerHTML = localStorage.getItem(2);
