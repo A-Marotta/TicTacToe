@@ -26,8 +26,22 @@ function colWin() {
     }
 }
 
+// checks for a win in diagonal cross - this is done by checking the variable 'diagonalCombinations[i]' to see if the nested array indexes all equal either 0 or 1. I used the rowCombinations variable to compare in the IF statement as it was already defined and saved me from creating another variable.
 function diagonalWin() {
+    for (var i = 0; i < diagonalCombinations.length; i++) {
+        if (JSON.stringify(diagonalCombinations[i]) === JSON.stringify(rowCombinations[0])) {
+            player = '1';
 
+            return [true, player];
+        } else if (JSON.stringify(diagonalCombinations[i]) === JSON.stringify(rowCombinations[1])) {
+            player = '2';
+
+            return [true, player];
+        } else
+        {
+            continue;
+        }
+    }
 }
 
 // Saves the players win to local storage
@@ -40,6 +54,17 @@ function storeWin(player) {
     } else {
         playerWinCount++;
         localStorage.setItem(player, playerWinCount);
+    }
+}
+
+// Checks the gameCounter variable and if it is equal to the board length then the game is a tie.
+function checkDraw(){
+    if (gameCounter === gameTemplate.length)
+    {
+        console.log('Game over!');
+        console.log('Game is a draw');
+
+        return true;
     }
 }
 
@@ -61,7 +86,9 @@ function checkWin() {
         alert(`Player ${player} has won!!`);
 
         storeWin(player);
-    }
+    } else if (checkDraw()) {
+        alert(`Game is a tie, no winners.`);
+    } 
 }
 
 // Displays the current players turn to the HTML document
@@ -87,38 +114,44 @@ function columnCounter(position, player) {
 // Function to update the array template (knows what to update based on the class of the click event)
 function updateBoard(event, player) {
     var event = event.target;
+    var col = 0;
 
     if (event.classList.contains('col-one-row-one')) {
-        board[0].splice(0, 1, player);
-        columnCounter(0, player)
+        var [index, start] = [0,0];
+        diagonalCombinations[0][0] = player;
     } else if (event.classList.contains('col-two-row-one')){
-        board[0].splice(1, 1, player);
-        columnCounter(1, player)
+        var [index, start] = [0,1];
+        col = 1;
     } else if (event.classList.contains('col-three-row-one')){
-        board[0].splice(2, 1, player);
-        columnCounter(2, player)
+        var [index, start] = [0,2];
+        col = 2;
+        diagonalCombinations[1][2] = player;
     } else if (event.classList.contains('col-one-row-two')){
-        board[1].splice(0, 1, player);
-        columnCounter(0, player)
+        var [index, start] = [1,0];
     } else if (event.classList.contains('col-two-row-two')){
-        board[1].splice(1, 1, player);
-        columnCounter(1, player)
+        var [index, start] = [1,1];
+        col = 1;
+        diagonalCombinations[0][1] = player;
+        diagonalCombinations[1][1] = player;
     } else if (event.classList.contains('col-three-row-two')){
-        board[1].splice(2, 1, player);
-        columnCounter(2, player)
+        var [index, start] = [1,2];
+        col = 2;
     } else if (event.classList.contains('col-one-row-three')){
-        board[2].splice(0, 1, player);
-        columnCounter(0, player)
+        var [index, start] = [2,0];
+        diagonalCombinations[1][0] = player;
     } else if (event.classList.contains('col-two-row-three')){
-        board[2].splice(1, 1, player);
-        columnCounter(1, player)
+        var [index, start] = [2,1];
+        col = 1;
     } else {
-        board[2].splice(2, 1, player);
-        columnCounter(2, player)
+        var [index, start] = [2,2];
+        col = 2;
+        diagonalCombinations[0][2] = player;
     }
 
-    updatePlayer(player);
+    board[index].splice(start, 1, player)
 
+    columnCounter(col, player);
+    updatePlayer(player);
     checkWin(player);
 }
 
@@ -129,11 +162,7 @@ function handleClick(event) {
     var player = null;
     gameCounter++;
 
-    if (gameCounter === gameTemplate.length)
-    {
-        console.log('Game over!');
-        console.log('Game is a draw');
-    }
+
 
     if (turn) {
         var img = document.createElement("IMG");
@@ -142,7 +171,6 @@ function handleClick(event) {
         img.setAttribute("height", "50");
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
-        // console.log('Player 1');
         player = 1;
     } else {
         var img = document.createElement("IMG");
@@ -151,7 +179,6 @@ function handleClick(event) {
         img.setAttribute("height", "50");
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
-        // console.log('Player 2');
         player = 0;
     }
 
