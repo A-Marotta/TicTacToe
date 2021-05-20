@@ -167,16 +167,16 @@ function handleClick(event) {
     if (turn) {
         var img = document.createElement("IMG");
         img.setAttribute("src", "img/x.png");
-        img.setAttribute("width", "50");
-        img.setAttribute("height", "50");
+        img.setAttribute("width", "75");
+        img.setAttribute("height", "75");
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
         player = 1;
     } else {
         var img = document.createElement("IMG");
         img.setAttribute("src", "img/O.png");
-        img.setAttribute("width", "50");
-        img.setAttribute("height", "50");
+        img.setAttribute("width", "75");
+        img.setAttribute("height", "75");
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
         player = 0;
@@ -198,7 +198,7 @@ function checkPlayerTurn(){
     }
 }
 
-// WORK ON TIMER AND DIAGONAL WIN
+// Function for the timer countdown
 function startTimer(duration, display) {
     var timer = duration, minutes, seconds;
     setInterval(function () {
@@ -216,16 +216,31 @@ function startTimer(duration, display) {
     }, 1000);
 }
 
-window.onload = function () {
-    var fiveMinutes = 60 * 5,
-        display = document.querySelector('#time');
-    startTimer(fiveMinutes, display);
-};
+// Upon submit of game options form this function updates the players objects and calls the timer function with the parameters input on form.
+function setPlayerOptions() {
+    var player1Name = document.querySelector('#p1-name');
+    var player2Name = document.querySelector('#p2-name');
+    var gameOptionForm = document.querySelector('.user-options');
+
+    player1.playerName = player1Name.value;
+    player2.playerName = player2Name.value;
+
+    var timer = document.querySelector('#timer').value;
+    var display = document.querySelector('#time');
+
+    startTimer(timer, display);
+
+    gameOptionForm.style.display = 'none';
+
+}
 
 // Active for loop listening for clicks on the query selector
 for ( var i = 0; i < gameTemplate.length; i++) {
     gameTemplate[i].addEventListener('click', handleClick)
 }
+
+// Event listener to submit user input for game options
+userOptionBtn.addEventListener('click', setPlayerOptions);
 
 // function rollDice() {
 

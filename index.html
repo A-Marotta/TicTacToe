@@ -8,18 +8,34 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+    
+    <div class="user-options">
+        <h2>Please enter your game options:</h2>
+        
+          <label for="p1-name">Player 1 name</label>
+          <input type="text" id="p1-name" name="p1-name" placeholder="Your name..">
+      
+          <label for="p2-name">Player 2 name</label>
+          <input type="text" id="p2-name" name="p2-name" placeholder="Your last name..">
+      
+          <label for="countdown">Countdown timer</label>
+          <select id="timer" name="timer">
+            <option value="30">30 seconds</option>
+            <option value="60">60 seconds</option>
+            <option value="90">90 seconds</option>
+          </select>
+        
+          <button class="submit-useroption" type="button">Submit</button>
+        
+    </div>
 
     <div class="main">
+
         <canvas>
             <div class="txtStyle">STROKE-ON CANVAS</div>
         </canvas>
 
-        <div class="player-title">
-            <h4>Players turn: </h4>
-            <h4 class="player-turn"></h4>
-        </div>
-
-        <div>Registration closes in <span id="time">05:00</span> minutes!</div>
+        <div>Player turn countdown <span id="time">xx</span> minutes!</div>
 
         <div class="tic-tac-toe">
             <div class="col-one">
@@ -41,14 +57,14 @@
             </div>
         </div>
 
-        <div class="stats">
-
-            <h6>player 1 win count: <span class='p1-score'></span></h6>
-            <h6>player 2 win count: <span class='p2-score'></span></h6>
-
-            <h6 class="space">player 1 = X, player 2 = O </h6>
+        <div class="player-title">
+            <h4>Players turn: <span class="player-turn"></span></h4>
+            <div class="stats">
+                <h6>player 1 win count: <span class='p1-score'></span></h6>
+                <h6>player 2 win count: <span class='p2-score'></span></h6>
+                <h6 class="space">player 1 = X, player 2 = O </h6>
+            </div>           
         </div>
-
     </div>
 
 

@@ -1,10 +1,10 @@
 var ctx = document.querySelector("canvas").getContext("2d"),
-    dashLen = 220, dashOffset = dashLen, speed = 10,
+    dashLen = 220, dashOffset = dashLen, speed = 20,
     txt = "STROKE-ON Tic-tac-toe", x = 0, i = 0;
 
 ctx.font = "50px Comic Sans MS, cursive, TSCu_Comic, sans-serif"; 
 ctx.lineWidth = 2; ctx.lineJoin = "round"; ctx.globalAlpha = 2/3;
-ctx.strokeStyle = ctx.fillStyle = "#4682B4";
+ctx.strokeStyle = ctx.fillStyle = "#FFFFFF";
 
 (function loop() {
   ctx.clearRect(x, 0, 60, 150);
