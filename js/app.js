@@ -44,6 +44,13 @@ function diagonalWin() {
     }
 }
 
+// When called the grid is unable to be clicked upon
+function disableGameClicks() {
+    for ( var i = 0; i < gameTemplate.length; i++) {
+        gameTemplate[i].style.pointerEvents = 'none';
+    }
+}
+
 // Saves the players win to local storage
 function storeWin(player) {
     var playerWinCount = localStorage.getItem(player);
@@ -61,38 +68,93 @@ function storeWin(player) {
 function checkDraw(){
     if (gameCounter === gameTemplate.length)
     {
-        console.log('Game over!');
-        console.log('Game is a draw');
 
         return true;
     }
 }
 
+// After reseting a game a bug occured where the counters would produce a true win - initialising each counter to null or 0 fixed this issue
+function resetCounterVariables() {
+    player1Cols = [0,0,0];
+    player2Cols = [0,0,0];
+    player1.currentGameCounter = 0;
+    player2.currentGameCounter = 0;
+    diagonalCombinations[0] = [null,null,null];
+    diagonalCombinations[1] = [null,null,null];
+
+    winnerDisplay.textContent = ``;
+}
+
+// After player has selected the play again button, resets the grid to empty
+function resetGrid() {
+    gameCounter = 0;
+    var imageTemplate = document.querySelectorAll('.image');
+
+    for (var k = 0; k < board.length; k++) {
+        for ( var x = 0; x < board[k].length; x++) {
+            board[k][x] = null;
+        }
+    }
+    
+    for ( var i = 0; i < gameTemplate.length; i++) {
+        gameTemplate[i].style.pointerEvents = 'auto';
+    }
+
+    for (var x = 0; x < imageTemplate.length; x++) {
+        imageTemplate[x].parentNode.removeChild(imageTemplate[x]);
+    }    
+
+    resetCounterVariables();
+    // setPlayerOptions();
+    var resetBtnDiv = document.querySelector('.replay');
+    var addResetBtn = document.querySelector('.btn-play-again');
+
+    resetBtnDiv.removeChild(addResetBtn);
+    startTimer(sessionTimer);
+
+}
+
+// Once game has completed generates a reset game button
+function resetGame() {
+    var resetBtnDiv = document.querySelector('.replay');
+    var addResetBtn = document.createElement('button');
+    addResetBtn.classList.add('btn-play-again');
+    addResetBtn.innerHTML = "Play again!";  
+
+    resetBtnDiv.appendChild(addResetBtn);
+}
+
 // Check each function for a true condition on a winner
 function checkWin() {
     if (rowWin() || colWin() || diagonalWin()){
-        console.log(`Game over player ${player} wins`);
-
+        var playAgain = document.querySelector('.replay');
+  
         if (player === '1') {
-            //player = player1.playerName;
             player = 1;
             player1.winCounter++;
+            var name = player1.playerName;
         } else {
-            //player = player2.playerName;
             player = 2;
             player2.winCounter++;
+            var name = player2.playerName
         }
 
-        for ( var i = 0; i < gameTemplate.length; i++) {
-            gameTemplate[i].style.pointerEvents = 'none';
-        }
-
-        startTimer(0);
+        disableGameClicks();
         storeWin(player);
+        clearInterval(window.idVar);
+        countdownDisplay.style.display = 'none';
+        document.querySelector('#time').style.display = 'none';
+        winnerDisplay.textContent = `The winner is player: ${name}.`;
 
-        alert(`Player ${player} has won!!`);
+        resetGame();
+        playAgain.addEventListener('click', resetGrid);
+
     } else if (checkDraw()) {
-        alert(`Game is a tie, no winners.`);
+        var playAgain = document.querySelector('.replay');
+       
+        winnerDisplay.textContent = `Game is a tie, no winners.`;
+        resetGame();
+        playAgain.addEventListener('click', resetGrid);
     } 
 }
 
@@ -175,6 +237,7 @@ function handleClick(event) {
         img.setAttribute("src", player1.token);
         img.setAttribute("width", "75");
         img.setAttribute("height", "75");
+        img.className = "image";
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
     } else {    
@@ -183,6 +246,7 @@ function handleClick(event) {
         img.setAttribute("src", player2.token);
         img.setAttribute("width", "75");
         img.setAttribute("height", "75");
+        img.className = "image";
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
     }
@@ -213,12 +277,10 @@ function checkPlayerTurn(){
 function startTimer(duration) {
     var display = document.querySelector('#time');
     var timer = duration, minutes, seconds;
+    display.style.display = 'initial';
+    countdownDisplay.style.display = 'initial';
 
-    if (duration === 0) {
-        countdownDisplay.style.display = 'none';
-    }
-
-    setInterval(function () {
+    window.idVar = setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
@@ -228,7 +290,14 @@ function startTimer(duration) {
         display.textContent = minutes + ":" + seconds;
 
         if (--timer < 0) {
-            timer = duration;
+            display.textContent = `Game is a tie, no winners.`;
+            countdownDisplay.style.display = 'none';
+            clearInterval(idVar);
+            resetCounterVariables();
+            disableGameClicks();
+            resetGame();
+            var playAgain = document.querySelector('.replay');
+            playAgain.addEventListener('click', resetGrid);
         }
     }, 1000);
 }
@@ -274,11 +343,11 @@ function setPlayerOptions() {
     displayHover2.textContent = player2.playerName;
 
     var timer = document.querySelector('#timer').value;
-
+    sessionTimer = timer;
     startTimer(timer);
 
     gameOptionForm.style.display = 'none';
-    countdownDisplay.style.display = 'block';
+    countdownDisplay.style.display = 'inline';
 
 
 }
@@ -290,10 +359,6 @@ for ( var i = 0; i < gameTemplate.length; i++) {
 
 // Event listener to submit user input for game options
 userOptionBtn.addEventListener('click', setPlayerOptions);
-
-if (timer === 0) {
-    console.log('game over');
-}
 
 // function rollDice() {
 

@@ -63,5 +63,7 @@ var spaceInvaderP1 = document.querySelector('.space-invader-p1');
 var spaceInvaderP2 = document.querySelector('.space-invader-p2');
 
 var countdownDisplay = document.querySelector('.countdown');
+var winnerDisplay = document.querySelector('.winner-display');
 
+var sessionTimer = 0;
 var userOptionBtn = document.querySelector('.submit-useroption');

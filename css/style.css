@@ -35,7 +35,7 @@ body {
     font-family: 'Press Start 2P', cursive;
 }
 
-input[type=text], select {
+.replay > button, input[type=text], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -45,7 +45,7 @@ input[type=text], select {
     box-sizing: border-box;
 }
 
-button[type=button] {
+.replay > button, button[type=button] {
     font-family: 'Press Start 2P', cursive;
     width: 100%;
     background-color: #000000;
@@ -57,7 +57,7 @@ button[type=button] {
     cursor: pointer;
 }
 
-button[type=button]:hover {
+.replay > button, button[type=button]:hover {
     background-color: #ff0000;
 }
 
@@ -104,6 +104,11 @@ button[type=button]:hover {
     display: none;
 }
 
+.winner-display {
+    text-align: center;
+    padding-top: 20px;
+}
+
 .main {
     visibility: hidden;
     margin: 0 auto;
@@ -111,7 +116,7 @@ button[type=button]:hover {
     text-align: center;
     border-radius: 10px;
     background-color: #f2f2f2;
-    padding: 20px;
+    padding: 0 20px;
     margin-bottom: 50px;
     z-index: 2; 
     position: fixed;
@@ -149,6 +154,7 @@ button[type=button]:hover {
     grid-template-columns: repeat(3, 1fr);
     cursor: pointer;
     margin-bottom: 40px;
+    margin-top: 20px;
 }
 
 .col-one *, .col-two *, .col-three * {
