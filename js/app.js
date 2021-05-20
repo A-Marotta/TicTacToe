@@ -327,9 +327,23 @@ function setPlayerOptions() {
     var player2Name = document.querySelector('#p2-name');
     var player1Token = document.querySelector('#p1-token');
     var player2Token = document.querySelector('#p2-token');
+    var firstPlay = document.querySelector('#first-player').value;
     var gameOptionForm = document.querySelector('.user-options');
     var mainScreen = document.querySelector('.main').style.visibility = 'visible';
     var headerDecrease = document.querySelector('header').classList.add('class-in-main-screen');
+
+    if (firstPlay === "player1") {
+        player2.currentGameCounter = 1;
+    } else if (firstPlay === "random") {
+        var random = Math.floor((Math.random() * 2));
+        if (random === 1) {
+            player2.currentGameCounter = 1;
+        } else {
+            player1.currentGameCounter = 1;
+        }
+    } else {
+        player1.currentGameCounter = 1;
+    }
 
     player1.playerName = player1Name.value;
     player2.playerName = player2Name.value;
@@ -348,8 +362,6 @@ function setPlayerOptions() {
 
     gameOptionForm.style.display = 'none';
     countdownDisplay.style.display = 'inline';
-
-
 }
 
 // Active for loop listening for clicks on the query selector
