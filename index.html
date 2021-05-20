@@ -16,14 +16,39 @@
         </header>
 
         <div class="user-options">
-            <h2>Please enter your game options:</h2>
-            
-            <label for="p1-name">Player 1 name</label>
-            <input type="text" id="p1-name" name="p1-name" placeholder="Player 1 name...">
-        
-            <label for="p2-name">Player 2 name</label>
-            <input type="text" id="p2-name" name="p2-name" placeholder="Player 2 name...">
-        
+            <h2>Please enter your game options: </h2>
+            <div class="grid-layout">
+                <div class="left-options">
+                    <label for="p1-name">Player 1 name</label>
+                    <input type="text" id="p1-name" name="p1-name" placeholder="Player 1 name...">
+                
+                    <label for="p2-name">Player 2 name</label>
+                    <input type="text" id="p2-name" name="p2-name" placeholder="Player 2 name...">
+                </div>
+
+                <div class="right-options">
+                    <label for="p1-token">Token</label>
+                    <select id="p1-token" name="p1-token">
+                        <option value="X">X</option>
+                        <option value="O">O</option>
+                        <option value="Ghost">Ghost</option>
+                        <option value="Mario">Mario</option>
+                        <option value="Heart">Heart</option>
+                        <option value="Pokeball">Pokeball</option>
+                    </select>
+
+                    <label for="p2-token">Token</label>
+                    <select id="p2-token" name="p2-token">
+                        <option value="X">X</option>
+                        <option value="O">O</option>
+                        <option value="Ghost">Ghost</option>
+                        <option value="Mario">Mario</option>
+                        <option value="Heart">Heart</option>
+                        <option value="Pokeball">Pokeball</option>
+                    </select>
+                </div>
+            </div>
+
             <label for="countdown">Countdown timer</label>
             <select id="timer" name="timer">
                 <option value="30">30 seconds</option>
@@ -37,7 +62,7 @@
 
     <div class="main">
         
-        <div class="countdown">Player<span class="player-turn"></span> countdown <span id="time">xx</span> minutes!</div>
+        <div class="countdown">Waiting...<span class="player-turn"></span> countdown <span id="time">xx</span></div>
 
         <div class="tic-tac-toe">
             <div class="col-one">
@@ -63,11 +88,11 @@
             <div class="stats">
                 <h6>player 1 win count: <span class='p1-score'></span></h6>
                 <h6>player 2 win count: <span class='p2-score'></span></h6>
-                <h6 class="space">player 1 = X, player 2 = O </h6>
+                <!-- <h6 class="space">player 1 = X, player 2 = O </h6> -->
             </div>    
             <div class="current-player">
-                <h4><span class="player1-user"></span></h4>
-                <h4><span class="player2-user"></span></h4>
+                <h4><img class="space-invader-p1" src="./img/space-invaders.png" alt=""><span class="player1-user"></span></h4>
+                <h4><img class="space-invader-p2" src="./img/space-invaders.png" alt=""><span class="player2-user"></span></h4>
             </div>       
         </div>
     </div>

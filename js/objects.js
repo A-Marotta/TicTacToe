@@ -25,14 +25,27 @@ var boardRows = [board[0], board[1], board[2]];
 var player1Cols = [0,0,0];
 var player2Cols = [0,0,0];
 
+var tokens = [
+    [{
+        tokenName: 'Mario',
+        tokenPath: 'img/mario.png'
+    }],
+    [{
+        tokenName: 'Ghost',
+        tokenPath: 'img/ghost.png'
+    }]
+]
+
 var player1 = {
     currentGameCounter: 0,
-    playerName: ''
+    playerName: '',
+    token: ''
 }
 
 var player2 = {
     currentGameCounter: 0,
-    playerName: ''
+    playerName: '',
+    token: ''
 }
 
 var gameCounter = 0;
@@ -43,6 +56,11 @@ var player2WinCount = document.querySelector('.p2-score');
 
 player1WinCount.innerHTML = localStorage.getItem(1);
 player2WinCount.innerHTML = localStorage.getItem(2);
+
+var displayHover1 = document.querySelector('.player1-user');
+var displayHover2 = document.querySelector('.player2-user');
+var spaceInvaderP1 = document.querySelector('.space-invader-p1');
+var spaceInvaderP2 = document.querySelector('.space-invader-p2');
 
 var countdownDisplay = document.querySelector('.countdown');
 

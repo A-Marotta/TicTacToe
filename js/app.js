@@ -74,10 +74,12 @@ function checkWin() {
         console.log(`Game over player ${player} wins`);
 
         if (player === '1') {
-            player = player1.playerName;
+            //player = player1.playerName;
+            player = 1;
             player1.winCounter++;
         } else {
-            player = player2.playerName;
+            //player = player2.playerName;
+            player = 2;
             player2.winCounter++;
         }
 
@@ -86,10 +88,9 @@ function checkWin() {
         }
 
         startTimer(0);
+        storeWin(player);
 
         alert(`Player ${player} has won!!`);
-
-        storeWin(player);
     } else if (checkDraw()) {
         alert(`Game is a tie, no winners.`);
     } 
@@ -121,6 +122,8 @@ function columnCounter(position, player) {
 function updateBoard(event, player) {
     var event = event.target;
     var col = 0;
+
+    updatePlayer(player);
 
     if (event.classList.contains('col-one-row-one')) {
         var [index, start] = [0,0];
@@ -157,33 +160,31 @@ function updateBoard(event, player) {
     board[index].splice(start, 1, player)
 
     columnCounter(col, player);
-    updatePlayer(player);
     checkWin(player);
 }
 
 // Handles the click event - checks which players turn it is, displays if game is over
 function handleClick(event) {
-    // var selectedGrid = event.target;
     var turn = checkPlayerTurn()
     var player = null;
     gameCounter++;
 
     if (turn) {
-        var img = document.createElement("IMG");
-        img.setAttribute("src", "img/x.png");
-        img.setAttribute("width", "75");
-        img.setAttribute("height", "75");
-        event.target.appendChild(img);
-        event.target.style.pointerEvents = 'none';
         player = 1;
-    } else {
         var img = document.createElement("IMG");
-        img.setAttribute("src", "img/O.png");
+        img.setAttribute("src", player1.token);
         img.setAttribute("width", "75");
         img.setAttribute("height", "75");
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
+    } else {    
         player = 0;
+        var img = document.createElement("IMG");
+        img.setAttribute("src", player2.token);
+        img.setAttribute("width", "75");
+        img.setAttribute("height", "75");
+        event.target.appendChild(img);
+        event.target.style.pointerEvents = 'none';
     }
 
     updateBoard(event, player);
@@ -193,11 +194,17 @@ function handleClick(event) {
 function checkPlayerTurn(){
     if (player1.currentGameCounter < player2.currentGameCounter || player1.currentGameCounter === player2.currentGameCounter) {
         player1.currentGameCounter++;
-
+        displayHover1.classList.remove('highlightCurrentPlayer');
+        displayHover2.classList.add('highlightCurrentPlayer');
+        spaceInvaderP1.style.visibility = 'hidden';
+        spaceInvaderP2.style.visibility = 'visible';
         return true;
     } else {
         player2.currentGameCounter++;
-
+        displayHover2.classList.remove('highlightCurrentPlayer');
+        displayHover1.classList.add('highlightCurrentPlayer');
+        spaceInvaderP1.style.visibility = 'visible';
+        spaceInvaderP2.style.visibility = 'hidden';
         return false;
     }
 }
@@ -226,19 +233,43 @@ function startTimer(duration) {
     }, 1000);
 }
 
+// Will set the token input on the front board depending on the user selection in the user options
+function setTokenImage(player) {
+    if (player.token === 'Mario') {
+        player.token = 'img/mario.png';
+    } else if (player.token === 'Ghost') {
+        player.token = 'img/ghost.png';
+    } else if (player.token === 'Heart') {
+        player.token = 'img/heart.png';
+    } else if (player.token === 'Pokeball') {
+        player.token = 'img/pokeball.png';
+    } else if (player.token === 'X') {
+        player.token = 'img/X.png';
+    } else {
+        player.token = 'img/O.png';
+    }
+}
+
 // Upon submit of game options form this function updates the players objects and calls the timer function with the parameters input on form.
 function setPlayerOptions() {
+    checkPlayerTurn();
+
     var player1Name = document.querySelector('#p1-name');
     var player2Name = document.querySelector('#p2-name');
+    var player1Token = document.querySelector('#p1-token');
+    var player2Token = document.querySelector('#p2-token');
     var gameOptionForm = document.querySelector('.user-options');
     var mainScreen = document.querySelector('.main').style.visibility = 'visible';
     var headerDecrease = document.querySelector('header').classList.add('class-in-main-screen');
 
     player1.playerName = player1Name.value;
     player2.playerName = player2Name.value;
+    player1.token = player1Token.value;
+    player2.token = player2Token.value;
 
-    var displayHover1 = document.querySelector('.player1-user');
-    var displayHover2 = document.querySelector('.player2-user');
+    setTokenImage(player1);
+    setTokenImage(player2);
+
     displayHover1.textContent = player1.playerName;
     displayHover2.textContent = player2.playerName;
 
@@ -259,6 +290,10 @@ for ( var i = 0; i < gameTemplate.length; i++) {
 
 // Event listener to submit user input for game options
 userOptionBtn.addEventListener('click', setPlayerOptions);
+
+if (timer === 0) {
+    console.log('game over');
+}
 
 // function rollDice() {
 

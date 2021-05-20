@@ -74,6 +74,12 @@ button[type=button]:hover {
     transform: translate(-50%, -50%);
 }
 
+.grid-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+}
+
 .user-options > h2 {
     margin-top: 0;
     letter-spacing: 3px;
@@ -88,8 +94,8 @@ button[type=button]:hover {
     text-shadow: 2px 2px #FFFFFF;
 }
 
-form {
-    text-align: left;
+#timer {
+    padding-top: 20px;
 }
 
 .countdown {
@@ -164,6 +170,13 @@ form {
     border-bottom:solid 2px #41403E;
 }
 
+.stats {
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-direction: column;
+}
+
 .stats > h6 {
     text-align: left;
     margin-bottom: 0;
@@ -174,11 +187,22 @@ form {
     display: inline-flex;
     justify-content: space-around;
     align-content: center;
+    align-items: flex-end;
     width: 40%;
 }
 
 .space {
     padding-top: 10px;
+}
+
+.space-invader-p1, .space-invader-p2 {
+    visibility: hidden;
+    width: 50px;
+    padding-right: 10px;
+}
+
+.highlightCurrentPlayer {
+    text-decoration: underline 4px red;
 }
 
 @keyframes blink{
