@@ -1,3 +1,38 @@
+// Function to create sound object
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+      this.sound.play();
+    }
+    this.stop = function(){
+      this.sound.pause();
+    }
+}
+
+// Once a game begins the pac man intro sound will begin (for fun :P)
+function startGameSound() {
+    myMusic = new sound("pac-man-intro.mp3");
+    myMusic.play();
+}
+
+// Upon player 1 selecting location their sound will play
+function player1Sound() {
+    var p1Sound = new sound("8bitgame1.wav");
+    p1Sound.play();
+}
+
+
+// Upon player 2 selecting location their sound will play
+function player2Sound() {
+    var p2Sound = new sound("8bitgame2.wav");
+    p2Sound.play();
+}
+
 // Iterate over row templates setup in objects.js to match a winning template defined in rowCombinations
 function rowWin() {
     for ( var k = 0; k < boardRows.length; k++){
@@ -149,6 +184,9 @@ function checkWin() {
         resetGame();
         playAgain.addEventListener('click', resetGrid);
 
+        mySound = new sound("Victory.mp3");
+        mySound.play();
+
     } else if (checkDraw()) {
         var playAgain = document.querySelector('.replay');
        
@@ -262,6 +300,7 @@ function checkPlayerTurn(){
         displayHover2.classList.add('highlightCurrentPlayer');
         spaceInvaderP1.style.visibility = 'hidden';
         spaceInvaderP2.style.visibility = 'visible';
+        player1Sound();
         return true;
     } else {
         player2.currentGameCounter++;
@@ -269,12 +308,15 @@ function checkPlayerTurn(){
         displayHover1.classList.add('highlightCurrentPlayer');
         spaceInvaderP1.style.visibility = 'visible';
         spaceInvaderP2.style.visibility = 'hidden';
+        player2Sound();
         return false;
     }
 }
 
 // Function for the timer countdown
 function startTimer(duration) {
+    startGameSound();
+
     var display = document.querySelector('#time');
     var timer = duration, minutes, seconds;
     display.style.display = 'initial';
@@ -371,7 +413,3 @@ for ( var i = 0; i < gameTemplate.length; i++) {
 
 // Event listener to submit user input for game options
 userOptionBtn.addEventListener('click', setPlayerOptions);
-
-// function rollDice() {
-
-// }

@@ -25,17 +25,6 @@ var boardRows = [board[0], board[1], board[2]];
 var player1Cols = [0,0,0];
 var player2Cols = [0,0,0];
 
-var tokens = [
-    [{
-        tokenName: 'Mario',
-        tokenPath: 'img/mario.png'
-    }],
-    [{
-        tokenName: 'Ghost',
-        tokenPath: 'img/ghost.png'
-    }]
-]
-
 var player1 = {
     currentGameCounter: 0,
     playerName: '',
@@ -67,3 +56,6 @@ var winnerDisplay = document.querySelector('.winner-display');
 
 var sessionTimer = 0;
 var userOptionBtn = document.querySelector('.submit-useroption');
+
+var mySound;
+var myMusic;
