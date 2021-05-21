@@ -157,6 +157,10 @@ function resetGame() {
     addResetBtn.innerHTML = "Play again!";  
 
     resetBtnDiv.appendChild(addResetBtn);
+    
+    player1WinCount.innerHTML = localStorage.getItem(1);
+    player2WinCount.innerHTML = localStorage.getItem(2);
+
 }
 
 // Check each function for a true condition on a winner
