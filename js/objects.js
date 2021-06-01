@@ -37,6 +37,11 @@ var player2 = {
     token: ''
 }
 
+var multiplayerSelection = document.querySelector('.multiplayer-mode');
+var computerSelection = document.querySelector('.computer-mode');
+var gameOptionForm = document.querySelector('.user-options');
+var computerOptionForm = document.querySelector('.computer-options');
+
 var gameCounter = 0;
 var gameTemplate = document.querySelectorAll('.tic-tac-toe > * > *');
 
@@ -56,6 +61,10 @@ var winnerDisplay = document.querySelector('.winner-display');
 
 var sessionTimer = 0;
 var userOptionBtn = document.querySelector('.submit-useroption');
+var computerOptionBtn = document.querySelector('.submit-computeroption');
 
 var mySound;
 var myMusic;
+
+var gameOver = false;
+var computerReplayFirst = false;

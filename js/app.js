@@ -101,9 +101,8 @@ function storeWin(player) {
 
 // Checks the gameCounter variable and if it is equal to the board length then the game is a tie.
 function checkDraw(){
-    if (gameCounter === gameTemplate.length)
+    if (gameCounter >= gameTemplate.length)
     {
-
         return true;
     }
 }
@@ -116,7 +115,18 @@ function resetCounterVariables() {
     player2.currentGameCounter = 0;
     diagonalCombinations[0] = [null,null,null];
     diagonalCombinations[1] = [null,null,null];
+    gameOver = false;
 
+    for ( var i = 0; i < board.length; i++) {
+        for ( var x = 0; x < board[i].length; x++) {
+            board[i][x] = null;
+        }
+    }
+
+    if (computerReplayFirst) {
+        player1.currentGameCounter = 1;
+    }
+    
     winnerDisplay.textContent = ``;
 }
 
@@ -140,7 +150,6 @@ function resetGrid() {
     }    
 
     resetCounterVariables();
-    // setPlayerOptions();
     var resetBtnDiv = document.querySelector('.replay');
     var addResetBtn = document.querySelector('.btn-play-again');
 
@@ -157,10 +166,9 @@ function resetGame() {
     addResetBtn.innerHTML = "Play again!";  
 
     resetBtnDiv.appendChild(addResetBtn);
-    
+
     player1WinCount.innerHTML = localStorage.getItem(1);
     player2WinCount.innerHTML = localStorage.getItem(2);
-
 }
 
 // Check each function for a true condition on a winner
@@ -185,18 +193,38 @@ function checkWin() {
         document.querySelector('#time').style.display = 'none';
         winnerDisplay.textContent = `The winner is player: ${name}.`;
 
+        for ( var i = 0; i < board.length; i++) {
+            for ( var x = 0; x < board[i].length; x++) {
+                board[i][x] = -1;
+            }
+        }
+
         resetGame();
         playAgain.addEventListener('click', resetGrid);
 
         mySound = new sound("Victory.mp3");
         mySound.play();
 
+        gameOver = true;
+        clearTimeout();
+
     } else if (checkDraw()) {
         var playAgain = document.querySelector('.replay');
-       
+        clearInterval(window.idVar);
+
         winnerDisplay.textContent = `Game is a tie, no winners.`;
+
+        for ( var i = 0; i < board.length; i++) {
+            for ( var x = 0; x < board[i].length; x++) {
+                board[i][x] = -1;
+            }
+        }
+
         resetGame();
         playAgain.addEventListener('click', resetGrid);
+
+        gameOver = true;
+        clearTimeout();
     } 
 }
 
@@ -272,7 +300,7 @@ function handleClick(event) {
     var turn = checkPlayerTurn()
     var player = null;
     gameCounter++;
-
+    
     if (turn) {
         player = 1;
         var img = document.createElement("IMG");
@@ -282,6 +310,11 @@ function handleClick(event) {
         img.className = "image";
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
+
+        if (player2.playerName === 'Computer') {
+            computerPlay();
+        }
+
     } else {    
         player = 0;
         var img = document.createElement("IMG");
@@ -292,26 +325,145 @@ function handleClick(event) {
         event.target.appendChild(img);
         event.target.style.pointerEvents = 'none';
     }
-
     updateBoard(event, player);
+}
+
+// Update the board according to computers move
+function computerUpdateBoard(player) {
+    updatePlayer(player);
+    var col = 0;
+    var [index, start] = [0,0];
+    board[index].splice(start, 1, player)
+}
+
+// Code block for computer logic to play
+function computerPlay() {
+    gameCounter++;
+    player = 0;
+    player2.currentGameCounter++;
+
+    var availablePositions = [];
+
+    setTimeout(function() {
+        if (gameOver === false) {
+            displayHover2.classList.remove('highlightCurrentPlayer');
+            displayHover1.classList.add('highlightCurrentPlayer');
+            spaceInvaderP1.style.visibility = 'visible';
+            spaceInvaderP2.style.visibility = 'hidden';
+        }
+    }, 1000);
+
+    setTimeout(function(){
+        if (gameOver === false) {
+            for ( var i = 0; i < board.length; i++) {
+                var idx = board[i].indexOf(null);
+                while (idx != -1) {
+                    availablePositions.push(`${i}, ${idx}`);
+                    idx = board[i].indexOf(null, idx + 1);
+                }
+            }
+
+            var randomLocation = Math.floor(Math.random() * availablePositions.length);        
+            index = availablePositions[randomLocation]
+
+            var img = document.createElement("IMG");
+            img.setAttribute("src", player2.token);
+            img.setAttribute("width", "75");
+            img.setAttribute("height", "75");
+            img.className = "image";
+
+            if (typeof index !== 'undefined') {
+                index = index.split(', ')
+                index[0] = parseInt(index[0])
+                index[1] = parseInt(index[1])
+                board[index[0]].splice(index[1], 1, 0)
+
+                if (index[0] === 0 && index[1] === 0) {
+                    gameTemplate[0].appendChild(img);
+                    gameTemplate[0].style.pointerEvents = 'none';
+                    diagonalCombinations[0][0] = 0;
+                } else if (index[0] === 0 && index[1] === 1) {
+                    gameTemplate[3].appendChild(img);
+                    gameTemplate[3].style.pointerEvents = 'none';
+                } else if (index[0] === 0 && index[1] === 2) {
+                    gameTemplate[6].appendChild(img);
+                    gameTemplate[6].style.pointerEvents = 'none';
+                    diagonalCombinations[1][0] = 0;
+                } else if (index[0] === 1 && index[1] === 0) {
+                    gameTemplate[1].appendChild(img);
+                    gameTemplate[1].style.pointerEvents = 'none';
+                } else if (index[0] === 1 && index[1] === 1) {
+                    gameTemplate[4].appendChild(img);
+                    gameTemplate[4].style.pointerEvents = 'none';
+                    diagonalCombinations[0][1] = 0;
+                    diagonalCombinations[1][1] = 0;
+                } else if (index[0] === 1 && index[1] === 2) {
+                    gameTemplate[7].appendChild(img);
+                    gameTemplate[7].style.pointerEvents = 'none';
+                } else if (index[0] === 2 && index[1] === 0) {
+                    gameTemplate[2].appendChild(img);
+                    gameTemplate[2].style.pointerEvents = 'none';
+                    diagonalCombinations[1][2] = 0;
+                } else if (index[0] === 2 && index[1] === 1) {
+                    gameTemplate[5].appendChild(img);
+                    gameTemplate[5].style.pointerEvents = 'none';
+                } else {
+                    gameTemplate[8].appendChild(img);
+                    gameTemplate[8].style.pointerEvents = 'none';
+                    diagonalCombinations[0][2] = 0;
+                }
+                player2Sound();   
+                columnCounter(index[1], 0);
+            }
+
+            checkWin()
+            checkPlayerTurn()
+        }
+    }, 1000);
 }
 
 // Basic function which increments on each turn and selects which players turn
 function checkPlayerTurn(){
-    if (player1.currentGameCounter < player2.currentGameCounter || player1.currentGameCounter === player2.currentGameCounter) {
+    if (player2.playerName === 'Computer'){
+        if (player1.currentGameCounter < player2.currentGameCounter || player1.currentGameCounter === player2.currentGameCounter) {
+            player1.currentGameCounter++;
+            displayHover1.classList.add('highlightCurrentPlayer');
+            displayHover2.classList.remove('highlightCurrentPlayer');
+            spaceInvaderP1.style.visibility = 'visible';
+            spaceInvaderP2.style.visibility = 'hidden';
+            player1Sound();
+            return true;
+        } else {
+            displayHover1.classList.remove('highlightCurrentPlayer');
+            displayHover2.classList.add('highlightCurrentPlayer');
+            spaceInvaderP1.style.visibility = 'hidden';
+            spaceInvaderP2.style.visibility = 'visible';
+
+            if (player2.currentGameCounter === 0) {
+                displayHover1.classList.remove('highlightCurrentPlayer');
+                displayHover2.classList.add('highlightCurrentPlayer');
+                spaceInvaderP1.style.visibility = 'hidden';
+                spaceInvaderP2.style.visibility = 'visible';
+
+                computerPlay();
+            }
+            
+            return true;
+        }
+    } else if (player1.currentGameCounter < player2.currentGameCounter || player1.currentGameCounter === player2.currentGameCounter) {
         player1.currentGameCounter++;
-        displayHover1.classList.remove('highlightCurrentPlayer');
         displayHover2.classList.add('highlightCurrentPlayer');
-        spaceInvaderP1.style.visibility = 'hidden';
+        displayHover1.classList.remove('highlightCurrentPlayer');
         spaceInvaderP2.style.visibility = 'visible';
+        spaceInvaderP1.style.visibility = 'hidden';
         player1Sound();
         return true;
     } else {
         player2.currentGameCounter++;
         displayHover2.classList.remove('highlightCurrentPlayer');
         displayHover1.classList.add('highlightCurrentPlayer');
-        spaceInvaderP1.style.visibility = 'visible';
         spaceInvaderP2.style.visibility = 'hidden';
+        spaceInvaderP1.style.visibility = 'visible';
         player2Sound();
         return false;
     }
@@ -360,23 +512,24 @@ function setTokenImage(player) {
         player.token = 'img/pokeball.png';
     } else if (player.token === 'X') {
         player.token = 'img/X.png';
-    } else {
+    } else if (player.token === 'O') {
         player.token = 'img/O.png';
+    } else {
+        player.token = 'img/arcade.png'
     }
 }
 
 // Upon submit of game options form this function updates the players objects and calls the timer function with the parameters input on form.
 function setPlayerOptions() {
-    checkPlayerTurn();
-
     var player1Name = document.querySelector('#p1-name');
     var player2Name = document.querySelector('#p2-name');
     var player1Token = document.querySelector('#p1-token');
     var player2Token = document.querySelector('#p2-token');
     var firstPlay = document.querySelector('#first-player').value;
-    var gameOptionForm = document.querySelector('.user-options');
     var mainScreen = document.querySelector('.main').style.visibility = 'visible';
     var headerDecrease = document.querySelector('header').classList.add('class-in-main-screen');
+    
+    checkPlayerTurn();
 
     if (firstPlay === "player1") {
         player2.currentGameCounter = 1;
@@ -405,9 +558,63 @@ function setPlayerOptions() {
     var timer = document.querySelector('#timer').value;
     sessionTimer = timer;
     startTimer(timer);
-
     gameOptionForm.style.display = 'none';
     countdownDisplay.style.display = 'inline';
+}
+
+function setComputerOptions() {
+    var player1Name = document.querySelector('#p1-name-computer');
+    var player2Name = 'Computer';
+    var player1Token = document.querySelector('#p1-token-computer');
+    var firstPlay = document.querySelector('#first-player-computer').value;   
+    var mainScreen = document.querySelector('.main').style.visibility = 'visible';
+    var headerDecrease = document.querySelector('header').classList.add('class-in-main-screen');
+    
+    player1.playerName = player1Name.value;
+    player2.playerName = player2Name;
+
+    player1.token = player1Token.value;
+    player2.token = 'Computer';
+    displayHover1.textContent = player1.playerName;
+    displayHover2.textContent = player2.playerName;
+
+    setTokenImage(player1);
+    setTokenImage(player2);
+    
+    if (firstPlay === "player1-computer") {
+        player2.currentGameCounter = 1;
+    } else if (firstPlay === "random-computer") {
+        var random = Math.floor((Math.random() * 2));
+        if (random === 1) {
+            player2.currentGameCounter = 1;
+        } else {
+            player1.currentGameCounter = 1;
+            computerReplayFirst = true;
+        }
+    } else {
+        player1.currentGameCounter = 1;
+        computerReplayFirst = true;
+    }
+
+    checkPlayerTurn();
+    
+    var timer = document.querySelector('#timer-computer').value;
+    sessionTimer = timer;
+    startTimer(timer);
+    computerOptionForm.style.display = 'none';
+    countdownDisplay.style.display = 'inline';
+}
+
+function loadMutliplayerOptions() {
+    var gameMode = document.querySelector('.game-mode');
+    gameMode.style.visibility = 'hidden';
+    gameOptionForm.style.display = 'inline';
+}
+
+function loadComputerOptions(){
+    var gameMode = document.querySelector('.game-mode');
+    gameMode.style.visibility = 'hidden';
+    computerOptionForm.style.display = 'inline';
 }
 
 // Active for loop listening for clicks on the query selector
@@ -415,5 +622,10 @@ for ( var i = 0; i < gameTemplate.length; i++) {
     gameTemplate[i].addEventListener('click', handleClick)
 }
 
-// Event listener to submit user input for game options
+// Event listener to submit user input for game options 
 userOptionBtn.addEventListener('click', setPlayerOptions);
+computerOptionBtn.addEventListener('click', setComputerOptions)
+
+// Event listener to call the second page of options for user input
+multiplayerSelection.addEventListener('click', loadMutliplayerOptions);
+computerSelection.addEventListener('click', loadComputerOptions);

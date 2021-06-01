@@ -35,6 +35,57 @@ body {
     font-family: 'Press Start 2P', cursive;
 }
 
+.mario-running > img {
+    top: 26px;
+    height: 100px;
+    position: relative;
+    animation-name: marioRunning;
+    animation-duration: 12s;
+    animation-fill-mode: forwards;
+    z-index: 2;
+}
+
+@keyframes marioRunning {
+    0%{left:-20px;}
+    50%{left:80%;}
+    100%{
+        left:90%;
+        opacity:0;
+    }
+}
+
+.wall {
+    height: auto;
+    }
+  .row {
+    display: flex;
+    border-top: 2px solid black;
+  }
+  
+ .row .brick {
+    flex-grow: 2;
+  }
+  
+  .row .brick:not(:last-child) {
+    border-right: 2px solid black;
+  }
+  
+  .row:nth-child(even) > .brick:first-child,
+  .row:nth-child(even) > .brick:last-child {
+    flex-grow: 1;
+  }
+  
+  .brick {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 136, 0);
+    height: 20px;
+    color: #fff;
+    font-family: Helvetica, sans-serif;
+    font-size: 12px;
+  }
+
 .replay > button, input[type=text], select {
     width: 100%;
     padding: 12px 20px;
@@ -43,6 +94,10 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+.replay {
+    display: flex
 }
 
 .replay > button, button[type=button] {
@@ -61,7 +116,48 @@ body {
     background-color: #ff0000;
 }
 
-.user-options {
+button[type=button]:active {
+    background-color: #ff0000;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+.game-mode-grid {
+    padding-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.game-mode-grid > button > img{
+    padding-right: 14px;
+}
+
+.dancing-animations {
+    padding-top: 40px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.luigi-dancing > img, .mario-dancing > img {
+    height: 60px;
+}
+
+.game-mode {
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    margin: 0 auto;
+    z-index: 1; 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 0 15px;
+    transform: translate(-50%, -50%);
+}
+
+.user-options, .computer-options {
+    display: none;
     border-radius: 10px;
     background-color: #f2f2f2;
     padding: 20px;
@@ -80,7 +176,7 @@ body {
     gap: 15px;
 }
 
-.user-options > h2 {
+.user-options > h2, .computer-options > h2, .game-mode > h2 {
     margin-top: 0;
     letter-spacing: 3px;
     font-size: 18px;
@@ -88,15 +184,15 @@ body {
     text-shadow: 1px 1px #EF4423;
 }
 
-.user-options > label {
+.game-mode > h2 {
+    text-align: center;
+}
+
+.user-options > label, .computer-options > label {
     margin-top: 0;
     letter-spacing: 3px;
     text-shadow: 2px 2px #FFFFFF;
     margin-top: 20px;
-}
-
-#timer {
-    padding-top: 20px;
 }
 
 .countdown {
@@ -227,7 +323,7 @@ body {
     }
   }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 650px) {
     .tic-tac-toe img {
         width: 50px;
         height: 50px;
@@ -235,5 +331,8 @@ body {
     .player-title {
         display: block;
         text-align: left;
+    }
+    header {
+        text-align: center;
     }
   }

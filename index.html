@@ -16,6 +16,43 @@
             <h4>Tic Tac Toe</h4>
         </header>
 
+        <!-- Inital screen options - user can select multiplayer or PC -->
+        <div class="game-mode">
+            <h2>Please select game mode: </h2>
+            
+            <div class="dancing-animations">
+                <div class="luigi-dancing">
+                    <img src="./img/luigiDancing.gif" alt="">
+                </div>
+                <div class="mario-dancing">
+                    <img src="./img/marioDancing.gif" alt="">
+                </div>
+            </div>
+
+            <div class="wall">
+                <div class="row">
+                  <div class="brick"></div>
+                  <div class="brick"></div>
+                  <div class="brick"></div>
+                  <div class="brick"></div>
+                  <div class="brick"></div>
+                </div>
+                <div class="row">
+                    <div class="brick"></div>
+                    <div class="brick"></div>
+                    <div class="brick"></div>
+                    <div class="brick"></div>
+                    <div class="brick"></div>
+                  </div>
+              </div>
+
+            <div class="game-mode-grid">
+                <button class="multiplayer-mode" type="button"><img src="img/ghostBlue.png">Multiplayer</button>
+                <button class="computer-mode" type="button"><img src="img/arcade.png">Computer</button>
+            </div>
+        </div>
+
+        <!-- Upon selecting multiplayer users have chance to input customisations -->
         <div class="user-options">
             <h2>Please enter your game options:</h2>
             <div class="grid-layout">
@@ -67,6 +104,46 @@
             <button class="submit-useroption" type="button">Submit</button>
         </div>
 
+        <!-- Upon selecting computer users have chance to input customisations -->
+        <div class="computer-options">
+            <h2>Please enter your game options:</h2>
+            <div class="grid-layout">
+                <div class="left-options">
+                    <label for="p1-name-computer">Player name</label>
+                    <input type="text" id="p1-name-computer" name="p1-name-computer" placeholder="Player name..." />
+                </div>
+
+                <div class="right-options">
+                    <label for="p1-token-computer">Token</label>
+                    <select id="p1-token-computer" name="p1-token-computer">
+                        <option value="X">X</option>
+                        <option value="O">O</option>
+                        <option value="Ghost">Ghost</option>
+                        <option value="Mario">Mario</option>
+                        <option value="Heart">Heart</option>
+                        <option value="Pokeball">Pokeball</option>
+                    </select>
+                </div>
+            </div>
+
+            <label for="countdown">Countdown timer</label>
+            <select id="timer-computer" name="timer-computer">
+                <option value="30">30 seconds</option>
+                <option value="60">60 seconds</option>
+                <option value="90">90 seconds</option>
+            </select>
+
+            <label for="first-player-computer">First to play</label>
+            <select id="first-player-computer" name="first-player-computer">
+                <option value="random-computer">Random</option>
+                <option value="player1-computer">Player</option>
+                <option value="player2-computer">Computer</option>
+            </select>
+
+            <button class="submit-computeroption" type="button">Submit</button>
+        </div>
+
+        <!-- Main content for gameplay -->
         <div class="main">
             <div class="winner-display"></div>
             <div class="countdown">Waiting...<span class="player-turn"></span> countdown</div> <span id="time">xx</span>
